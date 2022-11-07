@@ -8,6 +8,8 @@ import io.com.github.joaovictorjpg.service.imp.UserServiceImp;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -20,14 +22,14 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public User save(@RequestBody PostUserSaveDTO obj) {
+    public User save(@RequestBody @Valid PostUserSaveDTO obj) {
         return service.save(obj);
 
     }
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public User login(@RequestBody PostUserLoginDTO obj) {
+    public User login(@RequestBody @Valid PostUserLoginDTO obj) {
         return service.findByEmail(obj);
     }
 
