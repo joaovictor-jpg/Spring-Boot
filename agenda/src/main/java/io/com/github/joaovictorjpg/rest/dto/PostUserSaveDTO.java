@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostUserDTO {
+public class PostUserSaveDTO {
     @NotBlank(message = "Primeiro nome obrigatório")
     private String firstName;
     @NotBlank(message = "Sobre nome obrigatório")
