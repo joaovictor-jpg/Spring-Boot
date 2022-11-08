@@ -1,5 +1,6 @@
 package io.com.github.joaovictorjpg.domen.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -39,5 +42,8 @@ public class User {
     @Past(message = "Campo data inválido")
     @Column(name = "birth_data")
     private LocalDate birthDate;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Tasks> tasksList = new ArrayList<>();
 
 }

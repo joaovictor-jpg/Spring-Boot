@@ -6,3 +6,11 @@ CREATE TABLE tb_user (
     password VARCHAR(255) NOT NULL,
     birth_data TIMESTAMP NOT NULL
 );
+
+CREATE TABLE tasks (
+    id BIGINT NOT NULL PRIMARY KEY OUTO_AUTO_INCREMENT,
+    title VARCHAR(55) NOT NULL,
+    description VARCHAR NOT NULL,
+    date TIMESTAMP
+    user_id INTEGER REFERENCES tb_user (id)
+);
