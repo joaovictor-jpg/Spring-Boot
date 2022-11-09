@@ -1,10 +1,9 @@
 package io.com.github.joaovictorjpg.rest.controller;
 
 import io.com.github.joaovictorjpg.domen.entity.Tasks;
-import io.com.github.joaovictorjpg.rest.dto.PostTasksCreate;
+import io.com.github.joaovictorjpg.rest.dto.TasksDTO;
 import io.com.github.joaovictorjpg.service.TasksService;
 import io.com.github.joaovictorjpg.service.imp.TasksServiceImp;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,15 +20,27 @@ public class TasksController {
         this.service = tasksServiceImp;
     }
 
-    @GetMapping
-    public List<Tasks> findAll() {
-        return service.findAll();
+    @GetMapping("/{idUser}")
+    public List<Tasks> findByIdUser(@PathVariable Long idUser) {
+        return service.finByIdUser(idUser);
     }
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Tasks save(@RequestBody @Valid PostTasksCreate tasks) {
+    public Tasks save(@RequestBody @Valid TasksDTO tasks) {
         return service.save(tasks);
+    }
+
+    @DeleteMapping("/{idDelete}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long idDelete) {
+        service.delete(idDelete);
+    }
+
+    @PutMapping("/{idTask}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@PathVariable Long idTask, @RequestBody TasksDTO tasksDTO) {
+        service.update(idTask, tasksDTO);
     }
 
 }
