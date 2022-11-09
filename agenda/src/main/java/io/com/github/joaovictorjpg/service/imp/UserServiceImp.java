@@ -37,4 +37,8 @@ public class UserServiceImp implements UserService {
         return repository.findByEmail(obj.getEmail()).orElseThrow(() -> new UserNotFound("Usuario não encotrado"));
 
     }
+
+    public User findById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new UserNotFound("Usuário do ID: " + id + ", não foi encontrado."));
+    }
 }
