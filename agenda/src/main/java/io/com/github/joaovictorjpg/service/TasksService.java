@@ -2,14 +2,15 @@ package io.com.github.joaovictorjpg.service;
 
 import io.com.github.joaovictorjpg.domen.entity.Tasks;
 import io.com.github.joaovictorjpg.rest.dto.TasksDTO;
+import io.com.github.joaovictorjpg.rest.dto.TasksResponseDTO;
 
 import java.util.List;
 
 public interface TasksService {
 
-    Tasks save(TasksDTO tasks);
+    TasksResponseDTO save(TasksDTO tasks);
 
-    List<Tasks> finByIdUser(Long idCliente);
+    List<TasksResponseDTO> finByIdUser(Long idCliente);
 
     void delete(Long idDelete);
 

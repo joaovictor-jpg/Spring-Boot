@@ -5,6 +5,7 @@ import io.com.github.joaovictorjpg.domen.entity.User;
 import io.com.github.joaovictorjpg.domen.repository.TasksRepository;
 import io.com.github.joaovictorjpg.exception.UserNotFound;
 import io.com.github.joaovictorjpg.rest.dto.TasksDTO;
+import io.com.github.joaovictorjpg.rest.dto.TasksResponseDTO;
 import io.com.github.joaovictorjpg.service.TasksService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,18 +25,21 @@ public class TasksServiceImp implements TasksService {
 
     @Override
     @Transactional
-    public Tasks save(TasksDTO obj) {
+    public TasksResponseDTO save(TasksDTO obj) {
         Tasks tasks = TasksDTOToTasks(obj);
-        return repository.save(tasks);
+        repository.save(tasks);
+        return taskToTaskResponseDTO(tasks);
     }
+
 
     @Override
-    public List<Tasks> finByIdUser(Long id) {
+    public List<TasksResponseDTO> finByIdUser(Long id) {
 
         User user = userServiceImp.findById(id);
-
-        return repository.findByUser(user);
+        List<Tasks> tasks = repository.findByUser(user);
+        return listTasksToTaskResponseDTO(tasks);
     }
+
 
     @Override
     public void update(Long idTask, TasksDTO tasksDTO) {
@@ -67,5 +72,18 @@ public class TasksServiceImp implements TasksService {
                 )
                 .user( userServiceImp.findById(obj.getUser()) )
                 .build();
+    }
+    private TasksResponseDTO taskToTaskResponseDTO(Tasks tasks) {
+        return TasksResponseDTO
+                .builder()
+                .title(tasks.getTitle())
+                .description(tasks.getDescription())
+                .date(tasks.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
+                .build();
+    }
+    private List<TasksResponseDTO> listTasksToTaskResponseDTO(List<Tasks> tasks) {
+        return tasks.stream()
+                .map(task -> taskToTaskResponseDTO(task))
+                .collect(Collectors.toList());
     }
 }

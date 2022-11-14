@@ -2,6 +2,7 @@ package io.com.github.joaovictorjpg.rest.controller;
 
 import io.com.github.joaovictorjpg.domen.entity.Tasks;
 import io.com.github.joaovictorjpg.rest.dto.TasksDTO;
+import io.com.github.joaovictorjpg.rest.dto.TasksResponseDTO;
 import io.com.github.joaovictorjpg.service.TasksService;
 import io.com.github.joaovictorjpg.service.imp.TasksServiceImp;
 import org.springframework.http.HttpStatus;
@@ -21,13 +22,13 @@ public class TasksController {
     }
 
     @GetMapping("/{idUser}")
-    public List<Tasks> findByIdUser(@PathVariable Long idUser) {
+    public List<TasksResponseDTO> findByIdUser(@PathVariable Long idUser) {
         return service.finByIdUser(idUser);
     }
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Tasks save(@RequestBody @Valid TasksDTO tasks) {
+    public TasksResponseDTO save(@RequestBody @Valid TasksDTO tasks) {
         return service.save(tasks);
     }
 
