@@ -1,6 +1,5 @@
 package io.com.github.joaovictorjpg.rest.controller;
 
-import io.com.github.joaovictorjpg.domen.entity.Tasks;
 import io.com.github.joaovictorjpg.rest.dto.TasksDTO;
 import io.com.github.joaovictorjpg.rest.dto.TasksResponseDTO;
 import io.com.github.joaovictorjpg.service.TasksService;
