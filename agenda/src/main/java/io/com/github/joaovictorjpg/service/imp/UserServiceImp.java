@@ -5,6 +5,7 @@ import io.com.github.joaovictorjpg.domen.repository.UserRepository;
 import io.com.github.joaovictorjpg.exception.UserNotFound;
 import io.com.github.joaovictorjpg.rest.dto.PostUserLoginDTO;
 import io.com.github.joaovictorjpg.rest.dto.PostUserSaveDTO;
+import io.com.github.joaovictorjpg.rest.dto.UserDTO;
 import io.com.github.joaovictorjpg.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,12 +34,19 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User findByEmail(PostUserLoginDTO obj) {
-        return repository.findByEmail(obj.getEmail()).orElseThrow(() -> new UserNotFound("Usuario não encotrado"));
-
+    public UserDTO findByEmail(PostUserLoginDTO obj) {
+        User user = repository.findByEmail(obj.getEmail()).orElseThrow(() -> new UserNotFound("Usuario não encotrado"));
+        return userToUserDTO(user);
     }
+
 
     public User findById(Long id) {
         return repository.findById(id).orElseThrow(() -> new UserNotFound("Usuário do ID: " + id + ", não foi encontrado."));
+    }
+    private UserDTO userToUserDTO(User user) {
+        return UserDTO.builder()
+                .nickName(user.getFirstName())
+                .Login(user.getEmail())
+                .build();
     }
 }

@@ -3,6 +3,7 @@ package io.com.github.joaovictorjpg.rest.controller;
 import io.com.github.joaovictorjpg.domen.entity.User;
 import io.com.github.joaovictorjpg.rest.dto.PostUserLoginDTO;
 import io.com.github.joaovictorjpg.rest.dto.PostUserSaveDTO;
+import io.com.github.joaovictorjpg.rest.dto.UserDTO;
 import io.com.github.joaovictorjpg.service.UserService;
 import io.com.github.joaovictorjpg.service.imp.UserServiceImp;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public User login(@RequestBody @Valid PostUserLoginDTO obj) {
+    public UserDTO login(@RequestBody @Valid PostUserLoginDTO obj) {
         return service.findByEmail(obj);
     }
 
