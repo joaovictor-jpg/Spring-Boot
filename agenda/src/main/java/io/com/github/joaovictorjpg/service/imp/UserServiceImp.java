@@ -21,7 +21,7 @@ public class UserServiceImp implements UserService {
     private final UserRepository repository;
 
     @Override
-    public User save(PostUserSaveDTO obj) {
+    public UserDTO save(PostUserSaveDTO obj) {
         User user = User
                 .builder()
                 .firstName(obj.getFirstName())
@@ -30,7 +30,8 @@ public class UserServiceImp implements UserService {
                 .password(obj.getPassword())
                 .birthDate(LocalDate.parse(obj.getBirthDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")))
                 .build();
-        return repository.save(user);
+        repository.save(user);
+        return userToUserDTO(user);
     }
 
     @Override
