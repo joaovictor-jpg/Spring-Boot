@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -25,11 +26,22 @@ public class ApplicationControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErros handleConstraintViolationException(MethodArgumentNotValidException e, HttpServletRequest request) {
+    public ApiErros MethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         List<String> erros = e.getBindingResult().getAllErrors()
                 .stream()
                 .map(erro -> erro.getDefaultMessage())
+                .collect(Collectors.toList());
+        return new ApiErros(LocalDateTime.now(), status.value(), status.name(), erros, request.getRequestURI());
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErros handleConstraintViolationException(ConstraintViolationException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        List<String> erros = e.getConstraintViolations()
+                .stream()
+                .map(constraintViolation -> constraintViolation.getMessage() )
                 .collect(Collectors.toList());
         return new ApiErros(LocalDateTime.now(), status.value(), status.name(), erros, request.getRequestURI());
     }

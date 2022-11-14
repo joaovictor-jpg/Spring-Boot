@@ -37,7 +37,6 @@ public class TasksServiceImp implements TasksService {
     }
 
     @Override
-    @Transactional
     public void update(Long idTask, TasksDTO tasksDTO) {
 
         Tasks tasksWhithId = repository.findById(idTask).orElseThrow(() -> new UserNotFound("task not found"));
