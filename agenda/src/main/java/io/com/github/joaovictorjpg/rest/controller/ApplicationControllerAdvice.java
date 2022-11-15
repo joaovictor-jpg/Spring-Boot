@@ -1,6 +1,7 @@
 package io.com.github.joaovictorjpg.rest.controller;
 
 import io.com.github.joaovictorjpg.domen.entity.ApiErros;
+import io.com.github.joaovictorjpg.exception.AlreadyExistingEmail;
 import io.com.github.joaovictorjpg.exception.UserNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -45,4 +46,12 @@ public class ApplicationControllerAdvice {
                 .collect(Collectors.toList());
         return new ApiErros(LocalDateTime.now(), status.value(), status.name(), erros, request.getRequestURI());
     }
+
+    @ExceptionHandler(AlreadyExistingEmail.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErros handleAlreadyExistingEmail(AlreadyExistingEmail e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        return new ApiErros(LocalDateTime.now(), status.value(), status.name(), Arrays.asList(e.getMessage()), request.getRequestURI());
+    }
+
 }

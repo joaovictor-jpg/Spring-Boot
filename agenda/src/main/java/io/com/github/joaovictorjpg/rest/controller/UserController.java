@@ -21,6 +21,7 @@ public class UserController {
         this.service = service;
     }
 
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO save(@RequestBody @Valid PostUserSaveDTO obj) {

@@ -5,6 +5,7 @@ import io.com.github.joaovictorjpg.rest.dto.TasksResponseDTO;
 import io.com.github.joaovictorjpg.service.TasksService;
 import io.com.github.joaovictorjpg.service.imp.TasksServiceImp;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,6 +26,7 @@ public class TasksController {
         return service.finByIdUser(idUser);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public TasksResponseDTO save(@RequestBody @Valid TasksDTO tasks) {
